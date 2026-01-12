@@ -1,8 +1,9 @@
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import './index.css';
-import './App.css';
-
-const API_KEY = 'b2451d2cb1d5daff39021ed08ffb8639'; // <- вставь сюда свой ключ
+import {fetchWeather} from './utils/fetchWeather';
+import {fetchCities} from './utils/fetchCities';
+import Loading from './Loading';
+import ThemeButton from './ThemeButton';
 
 function App() {
   // Состояния
@@ -11,97 +12,89 @@ function App() {
   const [weather, setWeather] = useState(null); // данные погоды
   const [error, setError] = useState(''); // ошибка при запросе
   const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [theme, setTheme] = useState('light');
 
-  // Функция для запроса к OpenWeather
-  const fetchWeather = async () => {
-    if (!city) return; // если город пустой, ничего не делаем
-    setError(''); // сбрасываем прошлую ошибку
+  const inputRef = useRef(null);
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+  const loadWeather = async () => {
+    if (!city) return;
+
+    setLoading(true);
+    setError('');
+    setWeather(null);
 
     try {
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&appid=${API_KEY}&units=metric`
-      );
-      const data = await response.json();
-
-      if (data.cod === '404') {
-        setWeather(null);
-        setError('City not found');
-      } else {
-        console.log(data);
-        setWeather(data);
-      }
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const data = await fetchWeather(city, country);
+      setWeather(data);
     } catch (err) {
-      setError('Network error');
-      setWeather(null);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+      setCity('');
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
-    setCity('');
   };
+
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') fetchWeather();
-  };
-
-  //fetch Cities
-  const fetchCities = async (query) => {
-    if (query.length < 2) {
-      setSuggestions([]);
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`
-      );
-
-      const data = await response.json();
-      setSuggestions(data);
-    } catch {
-      setSuggestions([]);
-    }
+    if (e.key === 'Enter') loadWeather();
   };
 
   //RETURN
   return (
-    <div className='main-container'
+    <div
+      className="main-container"
       style={{fontFamily: 'sans-serif', textAlign: 'center', padding: '2rem'}}
     >
+      <ThemeButton theme={theme} setTheme={setTheme} />
       <h1>Weather App</h1>
+      <div className="main-box">
+        <div className="input-container">
+          <input
+            ref={inputRef}
+            type="text"
+            name="city-input"
+            placeholder="City"
+            value={city}
+            onChange={async (e) => {
+              setCity(e.target.value);
 
-      <input
-        type="text"
-        placeholder="City"
-        value={city}
-        onChange={(e) => {
-          setCity(e.target.value);
-          fetchCities(e.target.value);
-        }}
-        onKeyDown={handleKeyDown}
-        style={{padding: '0.5rem', width: '200px'}}
-      />
+              const cities = await fetchCities(e.target.value);
+              setSuggestions(cities);
+            }}
+            onKeyDown={handleKeyDown}
+            style={{padding: '0.5rem', width: '200px'}}
+          />
 
-      {suggestions.length > 0 && (
-        <ul className="list">
-          {suggestions.map((item, index) => (
-            <li
-              key={index}
-              className="listItem"
-              onClick={() => {
-                setCity(item.name);
-                setCountry(item.country);
-                setSuggestions([]);
-              }}
-            >
-              {item.name}, {item.country}
-            </li>
-          ))}
-        </ul>
-      )}
+          {suggestions.length > 0 && (
+            <ul className="list">
+              {suggestions.map((item, index) => (
+                <li
+                  key={index}
+                  className="listItem"
+                  onClick={() => {
+                    setCity(item.name);
+                    setCountry(item.country);
+                    setSuggestions([]);
+                  }}
+                >
+                  {item.name}, {item.country}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-      <button
-        onClick={fetchWeather}
-        style={{marginLeft: '1rem', padding: '0.5rem 1rem'}}
-      >
-        Find
-      </button>
+        <button onClick={loadWeather}>Find</button>
+        {loading && <Loading />}
+      </div>
 
       {error && <p style={{color: 'red'}}>{error}</p>}
 
