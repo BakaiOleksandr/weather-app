@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from 'react';
+import {useState} from 'react';
 import './index.css';
 import {fetchWeather} from './utils/fetchWeather';
 import {fetchCities} from './utils/fetchCities';
@@ -15,12 +15,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState('light');
 
-  const inputRef = useRef(null);
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
   const loadWeather = async () => {
     if (!city) return;
 
@@ -37,9 +31,6 @@ function App() {
     } finally {
       setLoading(false);
       setCity('');
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
     }
   };
 
@@ -58,7 +49,6 @@ function App() {
       <div className="main-box">
         <div className="input-container">
           <input
-            ref={inputRef}
             type="text"
             name="city-input"
             placeholder="City"
