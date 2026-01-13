@@ -1,4 +1,4 @@
-import {API_KEY} from './api_key';
+const API_KEY = import.meta.env.VITE_API_KEY;
 export async function fetchCities(query) {
   if (!query || query.length < 2) return [];
 
