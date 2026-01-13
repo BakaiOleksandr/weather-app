@@ -1,5 +1,4 @@
 import {API_KEY} from './api_key';
-
 export async function fetchCities(query) {
   if (!query || query.length < 2) return [];
 
