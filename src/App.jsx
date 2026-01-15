@@ -2,8 +2,9 @@ import {useState} from 'react';
 import './index.css';
 import {fetchWeather} from './utils/fetchWeather';
 import {fetchCities} from './utils/fetchCities';
-import Loading from './Loading';
-import ThemeButton from './ThemeButton';
+import Loading from './components/Loading';
+import ThemeButton from './components/ThemeButton';
+import AllowLocation from './components/AllowLocation';
 
 function App() {
   // Состояния
@@ -40,12 +41,12 @@ function App() {
 
   //RETURN
   return (
-    <div
-      className="main-container"
-      style={{fontFamily: 'sans-serif', textAlign: 'center', padding: '2rem'}}
-    >
-      <ThemeButton theme={theme} setTheme={setTheme} />
-      <h1>Weather App</h1>
+    <div className="main-container">
+      <div className="header">
+        <div className="weather-app-name">Weather App</div>
+        <ThemeButton theme={theme} setTheme={setTheme} />
+      </div>
+      <AllowLocation />
       <div className="main-box">
         <div className="input-container">
           <input

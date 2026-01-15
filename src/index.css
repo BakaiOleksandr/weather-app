@@ -2,8 +2,7 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  max-width: 1280px;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   text-align: center;
 
@@ -30,18 +29,16 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  min-width: 320px;
-  min-height: 100vh;
+
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: system-ui, sans-serif;
   justify-content: center;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.main-container {
+  margin: 0;
+  padding: 0;
 }
 input {
   width: 100%;
@@ -69,6 +66,22 @@ button {
 button:hover {
   border-color: var(--btn-border-hover);
 }
+.header {
+  display: flex;
+  font-weight: bolder;
+  align-items: center;
+  position: relative;
+  height: fit-content;
+  padding: 1rem;
+}
+.weather-app-name {
+  text-wrap: nowrap;
+  margin: 0 auto;
+}
+.change-theme {
+  position: absolute;
+  right: 0;
+}
 /* DARK THEME */
 .dark {
   --bg-color: #242424;
@@ -84,6 +97,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 1rem;
 }
 .input-container {
   position: relative;

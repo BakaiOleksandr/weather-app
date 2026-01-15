@@ -1,4 +1,6 @@
 import React from 'react';
+import {ImSun} from 'react-icons/im';
+import {FaMoon} from 'react-icons/fa';
 
 export default function ThemeButton({theme, setTheme}) {
   const toggleTheme = () => {
@@ -11,7 +13,7 @@ export default function ThemeButton({theme, setTheme}) {
   return (
     <div className="change-theme">
       <button onClick={toggleTheme} className="change-theme-btn">
-        Switch theme to: {theme === 'dark' ? 'Light' : 'Dark'}
+        {theme === 'dark' ? <ImSun /> : <FaMoon />}
       </button>
     </div>
   );
