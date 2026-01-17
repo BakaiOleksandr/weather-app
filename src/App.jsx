@@ -5,16 +5,22 @@ import {fetchCities} from './utils/fetchCities';
 import Loading from './components/Loading';
 import ThemeButton from './components/ThemeButton';
 import AllowLocation from './components/AllowLocation';
+import {useLoading} from './context/LoadingContext';
 
 function App() {
+  const {loading, setLoading} = useLoading();
+
   // Состояния
   const [city, setCity] = useState(''); // то, что ввёл пользователь
   const [country, setCountry] = useState('');
   const [weather, setWeather] = useState(null); // данные погоды
   const [error, setError] = useState(''); // ошибка при запросе
   const [suggestions, setSuggestions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState('light');
+  //Allow Location
+  const [cityLocation, setCityLocation] = useState(null);
+  const [errorLocation, setErrorLocation] = useState(null);
 
   const loadWeather = async () => {
     if (!city) return;
@@ -46,7 +52,12 @@ function App() {
         <div className="weather-app-name">Weather App</div>
         <ThemeButton theme={theme} setTheme={setTheme} />
       </div>
-      <AllowLocation />
+      <AllowLocation
+        cityLocation={cityLocation}
+        errorLocation={errorLocation}
+        setCityLocation={setCityLocation}
+        setErrorLocation={setErrorLocation}
+      />
       <div className="main-box">
         <div className="input-container">
           <input

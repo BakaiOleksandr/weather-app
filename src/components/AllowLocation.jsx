@@ -1,11 +1,18 @@
 import getCurrentLocation from '../utils/getCurrentLocation';
 import {getYourCityName} from '../utils/getYourCityName';
-import {useState} from 'react';
-export default function AllowLocation() {
-  const [city, setCity] = useState(null);
-  const [error, setError] = useState(null);
+import LocationWeather from './LocationWeather';
+import {useLoading} from '../context/LoadingContext';
+
+export default function AllowLocation({
+  cityLocation,
+  errorLocation,
+  setErrorLocation,
+  setCityLocation,
+}) {
+  const {setLoading} = useLoading();
 
   async function handleLocation() {
+    setLoading(true);
     try {
       const position = await getCurrentLocation();
 
@@ -13,16 +20,25 @@ export default function AllowLocation() {
       const lon = position.coords.longitude;
 
       const cityName = await getYourCityName(lat, lon);
-      setCity(cityName);
+      setCityLocation(cityName);
+      // setLoading(true);
     } catch (err) {
-      setError(err)
+      setErrorLocation(err);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
     <div>
-      <button onClick={handleLocation}>{city ? city : 'Allow location'}</button>
-      {error && <p style={{color: 'red'}}>{error}</p>}
+      {cityLocation ? (
+        <LocationWeather cityLocation={cityLocation} setLoading={setLoading} />
+      ) : (
+        <>
+          {errorLocation && <p>{errorLocation}</p>}
+          {!errorLocation && <button onClick={handleLocation}>Allow</button>}
+        </>
+      )}
     </div>
   );
 }

@@ -5,6 +5,5 @@ export async function getYourCityName(lat, lon) {
 
   const res = await fetch(url);
   const data = await res.json();
-  console.log(data[0]?.name);
-  return data[0]?.name;
+  return {cityName: data[0]?.name, cityCountry: data[0]?.country};
 }
