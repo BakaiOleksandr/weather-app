@@ -16,7 +16,7 @@ export default function LocationWeather({cityLocation}) {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const data = await fetchWeather(
           cityLocation.cityName,
-          cityLocation.cityCountry
+          cityLocation.cityCountry,
         );
         setLocalCity(data);
       } catch (err) {
@@ -38,7 +38,7 @@ export default function LocationWeather({cityLocation}) {
       <p>
         {localCity?.name}, {localCity?.sys.country}
       </p>
-      <p>Temperature:{localCity && localCity.main.temp}</p>
+      <p>Temperature: {localCity && localCity.main.temp.toFixed(1)} °C</p>
     </div>
   );
 }
