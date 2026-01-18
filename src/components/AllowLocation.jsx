@@ -2,6 +2,7 @@ import getCurrentLocation from '../utils/getCurrentLocation';
 import {getYourCityName} from '../utils/getYourCityName';
 import LocationWeather from './LocationWeather';
 import {useLoading} from '../context/LoadingContext';
+import {useEffect} from 'react';
 
 export default function AllowLocation({
   cityLocation,
@@ -10,7 +11,9 @@ export default function AllowLocation({
   setCityLocation,
 }) {
   const {setLoading} = useLoading();
-
+  useEffect(() => {
+    handleLocation();
+  }, []);
   async function handleLocation() {
     setLoading(true);
     try {
@@ -23,7 +26,9 @@ export default function AllowLocation({
       setCityLocation(cityName);
       // setLoading(true);
     } catch (err) {
-      setErrorLocation(err);
+      setErrorLocation(
+        'Access to geolocation is denied. Please allow geolocation in your browser.',
+      );
     } finally {
       setLoading(false);
     }
@@ -35,8 +40,13 @@ export default function AllowLocation({
         <LocationWeather cityLocation={cityLocation} setLoading={setLoading} />
       ) : (
         <>
-          {errorLocation && <p>{errorLocation}</p>}
-          {!errorLocation && <button onClick={handleLocation}>Allow</button>}
+          {errorLocation && <p style={{color: 'red'}}>{errorLocation}</p>}
+          {/* <button onClick={handleLocation}>Allow geolocation</button> */}
+          {errorLocation && (
+            <button onClick={() => window.location.reload()}>
+              Reload after permission change
+            </button>
+          )}
         </>
       )}
     </div>
