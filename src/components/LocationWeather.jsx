@@ -2,10 +2,13 @@ import {useEffect, useState} from 'react';
 import {fetchWeather} from '../utils/fetchWeather';
 import {useLoading} from '../context/LoadingContext';
 import Loading from './Loading';
+import {locationWeatherSwitch} from '../utils/locationWeatherSwitch';
+import './LocationWeather.css';
 
 export default function LocationWeather({cityLocation}) {
   const [localCity, setLocalCity] = useState(null);
   const {loading, setLoading} = useLoading();
+  const [backGround, setBackground] = useState('../images/Default.jpg');
 
   useEffect(() => {
     async function loadFunc() {
@@ -19,6 +22,8 @@ export default function LocationWeather({cityLocation}) {
           cityLocation.cityCountry,
         );
         setLocalCity(data);
+        locationWeatherSwitch(data.weather[0].main, setBackground);
+        // console.log(data.weather[0].main)
       } catch (err) {
         console.log('Error');
       } finally {
@@ -27,14 +32,17 @@ export default function LocationWeather({cityLocation}) {
     }
     loadFunc();
   }, [cityLocation, setLoading]);
-
+  console.log(localCity);
   if (loading) return <Loading />;
   if (!localCity) {
     return null; // ничего не показываем пока нет данных
   }
 
   return (
-    <div>
+    <div
+      style={{backgroundImage: `url(${backGround})`}}
+      className="location-weather-container"
+    >
       <p>
         {localCity?.name}, {localCity?.sys.country}
       </p>
