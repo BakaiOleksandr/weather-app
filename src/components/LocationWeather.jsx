@@ -32,7 +32,6 @@ export default function LocationWeather({cityLocation}) {
     }
     loadFunc();
   }, [cityLocation, setLoading]);
-  console.log(localCity);
   if (loading) return <Loading />;
   if (!localCity) {
     return null; // ничего не показываем пока нет данных
