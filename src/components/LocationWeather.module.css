@@ -1,0 +1,44 @@
+.locationWeatherContainer {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-image 0.5s ease-in-out;
+}
+
+.textBase {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 1rem;
+  margin: 0;
+  color: black;
+}
+
+.tempContainer {
+  font-size: 3rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: fit-content;
+  border-radius: 1rem;
+  text-align: center;
+  margin: 1rem;
+}
+.temp {
+  font-size: 2rem;
+  /* color: rgb(250, 246, 241); */
+}

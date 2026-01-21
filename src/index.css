@@ -2,9 +2,6 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  margin: 0;
-  padding: 0;
-  text-align: center;
 
   --bg-color: #ffffff;
   --text-color: #2c2c2c;
@@ -29,7 +26,8 @@ a:hover {
 
 body {
   margin: 0;
-
+  padding: 0;
+  text-align: center;
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: system-ui, sans-serif;
@@ -73,6 +71,7 @@ button:hover {
   position: relative;
   height: fit-content;
   padding: 1rem;
+  background-color: #a4a4a4;
 }
 .weather-app-name {
   text-wrap: nowrap;
@@ -97,7 +96,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
+  margin: 1rem;
 }
 .input-container {
   position: relative;
@@ -119,7 +118,7 @@ button:hover {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4xp solid #ccc;
+  border: 4px solid #ccc;
   border-top: 4px solid #007bff;
   border-radius: 50%;
   animation: spin 1s linear infinite;

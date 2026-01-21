@@ -3,12 +3,13 @@ import {fetchWeather} from '../utils/fetchWeather';
 import {useLoading} from '../context/LoadingContext';
 import Loading from './Loading';
 import {locationWeatherSwitch} from '../utils/locationWeatherSwitch';
-import './LocationWeather.css';
+import styles from './LocationWeather.module.css';
+import defaultImg from '../images/Default.jpg';
 
 export default function LocationWeather({cityLocation}) {
   const [localCity, setLocalCity] = useState(null);
   const {loading, setLoading} = useLoading();
-  const [backGround, setBackground] = useState('../images/Default.jpg');
+  const [backGround, setBackground] = useState(defaultImg);
 
   useEffect(() => {
     async function loadFunc() {
@@ -40,12 +41,17 @@ export default function LocationWeather({cityLocation}) {
   return (
     <div
       style={{backgroundImage: `url(${backGround})`}}
-      className="location-weather-container"
+      className={styles.locationWeatherContainer}
     >
-      <p>
+      <p className={styles.textBase}>
         {localCity?.name}, {localCity?.sys.country}
       </p>
-      <p>Temperature: {localCity && localCity.main.temp.toFixed(1)} °C</p>
+      <div className={styles.tempContainer}>
+        <p className={`${styles.textBase} ${styles.temp}`}>
+      {localCity && localCity.main.temp.toFixed(1)} °C
+      </p>
+        </div>
+        {loading && <Loading />}
     </div>
   );
 }

@@ -5,6 +5,8 @@ import { useLoading } from '../context/LoadingContext';
 import { useState } from 'react';
 
 export default function FindCity() {
+  
+
   const [city, setCity] = useState(''); // то, что ввёл пользователь
   const [country, setCountry] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -34,6 +36,7 @@ export default function FindCity() {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') loadWeather();
   };
+  // if (loading) return <Loading />;
   //RETURN
   return (
     <div className="main-box">
@@ -78,7 +81,7 @@ export default function FindCity() {
       {error && <p style={{color: 'red'}}>{error}</p>}
 
       {weather && weather.sys && weather.weather && (
-        <div style={{marginTop: '2rem'}}>
+        <div>
           <h2>
             {weather.name}, {weather.sys.country}
           </h2>

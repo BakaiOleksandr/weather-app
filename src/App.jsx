@@ -8,7 +8,7 @@ function App() {
   // Состояния
 
   // const [loading, setLoading] = useState(false);
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('');
   //Allow Location
   const [cityLocation, setCityLocation] = useState(null);
   const [errorLocation, setErrorLocation] = useState(null);
